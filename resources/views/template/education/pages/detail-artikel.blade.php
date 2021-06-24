@@ -1,6 +1,6 @@
  <!-- Latest Events Section Start -->
  @php
-     $detail = App\Helpers\FunctionHelper::detail_jurusan($id[0]);
+     $detail = App\Helpers\FunctionHelper::detail_artikel($id[0]);
 @endphp
 
 @section('slider')
@@ -22,7 +22,7 @@
                     <div class="blog-deatails">
                          <div class="bs-img">
                               <a href="javascript:void(0);">
-                                   <img src="{{url('storage/jurusan/'.$detail->cover)}}" alt="">
+                                   <img src="{{url('storage/artikel/'.$detail->cover)}}" alt="">
                               </a>
                          </div>
                          <div class="blog-full">

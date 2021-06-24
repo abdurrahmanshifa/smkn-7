@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title>Management Jurusan </title>
+    <title>Management Konten Jurusan </title>
 @endsection
 
 @section('content')
@@ -13,10 +13,10 @@
                     <header class="widget-header">
                         <div class="row">
                             <div class="col-md-6">
-                                <h4>Manajemen Jurusan</h4>
+                                <h4>Manajemen Konten Jurusan</h4>
                             </div>
                             <div class="col-md-6">
-                                <a href="javascript:void(0);" class="btn btn-primary pull-right tambah_form">
+                                <a href="{{ route('jurusan.create') }}" class="btn btn-primary pull-right">
                                     <i class="fa fa-plus"></i> Tambah Data
                                 </a>
                             </div>
@@ -25,12 +25,17 @@
 					<hr class="widget-separator">
 					<div class="widget-body">
 						<div class="table-responsive">
+							@include('includes.alert')
 							<table class="table table-striped"  width="100%" id="table">
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>Nama</th>
-										<th>Deskripsi</th>
+										<th>Cover</th>
+										<th>Kategori</th>
+										<th>Judul</th>
+										<th>Waktu Upload</th>
+										<th>Status</th>
+										<th>View</th>
 										<th>Aksi</th>
 									</tr>
 								</thead>

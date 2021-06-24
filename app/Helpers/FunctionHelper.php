@@ -126,6 +126,12 @@ class FunctionHelper{
          return $kategori;
     }
 
+    public static function detailkategori($id)
+    {
+         $kategori = Kategori::with('artikel')->find($id);
+         return $kategori;
+    }
+
     public static function lokasi(){
           $lokasi = Lokasi::first();
           return $lokasi;
@@ -145,6 +151,11 @@ class FunctionHelper{
                $data = $artikel->with(['kategori','user','komentar'])->orderBy('created_at','desc')->paginate(6);
           }
 
+          return $data;
+     }
+     public static function artikelbyKategori($id){
+          $artikel = Artikel::where('flag_active',1)->where('id_kategori',$id);
+          $data = $artikel->with(['kategori','user','komentar'])->orderBy('created_at','desc')->paginate(6);
           return $data;
      }
 

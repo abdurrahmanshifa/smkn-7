@@ -34,8 +34,6 @@
             </form>
         </div>
     </div>
-<<<<<<< HEAD
-=======
 </div>
 <div class="modal" id="modal_edit_status" role="dialog" data-backdrop="static">
     <div class="modal-dialog" role="document">
@@ -67,5 +65,4 @@
             </form>
         </div>
     </div>
->>>>>>> d6682dc7866aff9aade91da6e57d9e7242a22453
 </div>

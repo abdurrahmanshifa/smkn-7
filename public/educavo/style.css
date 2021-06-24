@@ -71,6 +71,7 @@ body {
 img {
   max-width: 100%;
   height: auto;
+  width: 100%;
 }
 p {
   margin: 0 0 26px;
@@ -4459,7 +4460,6 @@ body .modal-backdrop {
 }
 .rs-breadcrumbs .breadcrumbs-img img {
   width: 100%;
-  opacity: 0.5;
 }
 .rs-breadcrumbs .breadcrumbs-text {
   position: absolute;

@@ -48,11 +48,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('kategori/data/{id}','App\Http\Controllers\Manajemen\KategoriController@data')->name('manajemen.kategori.data');
         Route::delete('kategori/hapus/{id}','App\Http\Controllers\Manajemen\KategoriController@hapus')->name('manajemen.kategori.hapus');
 
-        Route::get('/jurusan', 'App\Http\Controllers\Manajemen\JurusanController@index')->name('manajemen.jurusan');
-        Route::post('jurusan/simpan','App\Http\Controllers\Manajemen\JurusanController@simpan')->name('manajemen.jurusan.simpan');
-        Route::post('jurusan/ubah','App\Http\Controllers\Manajemen\JurusanController@ubah')->name('manajemen.jurusan.ubah');
-        Route::get('jurusan/data/{id}','App\Http\Controllers\Manajemen\JurusanController@data')->name('manajemen.jurusan.data');
-        Route::delete('jurusan/hapus/{id}','App\Http\Controllers\Manajemen\JurusanController@hapus')->name('manajemen.jurusan.hapus');
+        Route::resource('jurusan',JurusanController::class);
+        Route::get('jurusan-datatable',[JurusanController::class,'datatable'])->name('jurusan.datatable');
+        Route::post('jurusan-edit-status',[JurusanController::class,'edit_status'])->name('jurusan.edit-status');
 
         Route::get('/event', 'App\Http\Controllers\Manajemen\EventController@index')->name('manajemen.event');
         Route::post('event/simpan','App\Http\Controllers\Manajemen\EventController@simpan')->name('manajemen.event.simpan');

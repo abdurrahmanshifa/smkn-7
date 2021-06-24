@@ -63,7 +63,7 @@
                     <ul class="submenu" style="{{ request()->is('manajemen/kategori')  || request()->is('manajemen/lokasi') || request()->is('manajemen/artikel') || request()->is('manajemen/komentar') ? 'display: block;' : '' }}"> --}}
                     <ul class="submenu" style="{{ request()->is('manajemen/jurusan')  || request()->is('manajemen/artikel') ? 'display: block;' : '' }}">
                         <li class="{{ request()->is('manajemen/jurusan') ? 'active' : '' }}">
-                            <a href="{{ route('manajemen.jurusan') }}">
+                            <a href="{{ route('jurusan.index') }}">
                                 <span class="menu-text">Jurusan</span>
                             </a>
                         </li>

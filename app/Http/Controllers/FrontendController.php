@@ -28,7 +28,7 @@ class FrontendController extends Controller
                return response()->download(public_path('storage/file/'.$file->file));
           }
           else{
-               return view('template.education.pages.index')->with('page', $page);
+               return view('template.education.pages.index')->with('page', $page)->with('id', $detail);
           }
     }
 

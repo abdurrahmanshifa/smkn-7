@@ -1,133 +1,214 @@
 <?php
 
 namespace App\Http\Controllers\Manajemen;
-
-use App\Http\Controllers\Controller;
-use Ramsey\Uuid\Uuid;
-use Illuminate\Http\Request;
-use App\Models\Jurusan;
+use DB;
+use Auth;
 use Validator;
 use DataTables;
+use App\Models\User;
+use Ramsey\Uuid\Uuid;
+use App\Models\Jurusan;
+use App\Models\Kategori;
+use Illuminate\Http\Request;
+use App\Helpers\FunctionHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class JurusanController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        if($request->ajax())
-        {
-            $data = Jurusan::get();
+        $kategori = Kategori::get();
+        return view('pages.jurusan.index');
+    }
+    
+    public function show($id)
+    {
+        $data = Jurusan::findOrFail($id);
+        return $data;
+    }
+    
+    public function create(){
+        $kategori = Kategori::orderBy('name')->get();
+        return view('pages.jurusan.create')
+                ->with('kategori',$kategori);
+    }
+    
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+                'id_kategori' => 'required',
+                'judul' => 'required',
+                'flag_active' => 'required',
+                'tanggal' => 'required',
+                'cover' => 'required|mimes:jpeg,jpg,png|max:3000',
+                'isi_artikel' => 'required',
+            ],
+            [
+                'id_kategori.required' => 'Kategori Artikel Belum Di Pilih!',
+                'judul.required' => 'Judul Artikel tidak boleh kosong!',
+                'flag_active.required' => 'Status Artikel Belum Di Pilih!',
+                'cover.required' => 'Cover Artikel Belum Dipilih!',
+                'tanggal.required' => 'Tanggal Artikel Belum Dipilih!',
+                'cover.mimes' => 'Cover Artikel Harus Format Gambar (Jpg, Png)!',
+                'cover.max' => 'Maksimal Size Cover Artikel 3 MB',
+                'isi_jurusan.required' => 'Isi Artikel tidak boleh kosong!',
+            ]
+        );
 
-            return Datatables::of($data)
+        if ($validator->passes()) {
+            try{
+                DB::beginTransaction();
+
+                $cover = null;
+                if($request->hasFile('cover'))
+                {
+                    $file = $request->file('cover');
+                    $file_name = $file->getClientOriginalName();
+                    $file_ext = $file->getClientOriginalExtension();
+                    $cover = time()."_jurusan_".Auth::user()->id."_".strtolower($file_name);
+                    $file->storeAs('jurusan', $cover);
+
+                }
+                $insert = new Jurusan;
+                $insert->id = Uuid::uuid4()->getHex();
+                $insert->id_kategori = $request->id_kategori;
+                $insert->id_user = Auth::user()->id;
+                $insert->judul = $request->judul;
+                $insert->cover = $cover;
+                $insert->tanggal = date('Y-m-d',strtotime($request->tanggal));
+                $insert->flag_active = $request->flag_active;
+                $insert->isi_artikel = $request->isi_artikel;
+                $insert->view = 0;
+                $insert->save();
+
+                DB::commit();
+                return redirect()->route('jurusan.index')->with('success','Data Baru Artikel Berhasil Di Simpan');
+            }
+            catch(Exception $ex)
+            {
+                DB::rollback();
+                return redirect()->route('jurusan.create')->with('failed','Data Baru Artikel Gagal Di Simpan');
+            }
+        }
+        else{
+            return redirect()->route('jurusan.create')->with('failed','Data Baru Artikel Gagal Di Simpan');
+        }
+
+    }
+
+    public function edit($id){
+        $kategori = Kategori::orderBy('name')->get();
+        $get = Jurusan::findOrFail($id);
+        return view('pages.jurusan.edit')
+                ->with('id',$id)
+                ->with('kategori',$kategori)
+                ->with('get',$get);
+    }
+
+    public function update(Request $request , $id)
+    {
+        $validator = Validator::make($request->all(), [
+                'id_kategori' => 'required',
+                'judul' => 'required',
+                'flag_active' => 'required',
+                'tanggal' => 'required',
+                'cover' => 'mimes:jpeg,jpg,png|max:3000',
+                'isi_artikel' => 'required',
+            ],
+            [
+                'id_kategori.required' => 'Kategori Artikel Belum Di Pilih!',
+                'judul.required' => 'Judul Artikel tidak boleh kosong!',
+                'flag_active.required' => 'Status Artikel Belum Di Pilih!',
+                'cover.required' => 'Cover Artikel Belum Dipilih!',
+                'cover.mimes' => 'Cover Artikel Harus Format Gambar (Jpg, Png)!',
+                'cover.max' => 'Maksimal Size Cover Artikel 3 MB',
+                'isi_jurusan.required' => 'Isi Artikel tidak boleh kosong!',
+            ]
+        );
+
+        if ($validator->passes()) {
+            try{
+                DB::beginTransaction();
+   
+                $insert = Jurusan::find($id);
+                $insert->id_kategori = $request->id_kategori;
+                $insert->id_user = Auth::user()->id;
+                $insert->judul = $request->judul;
+
+                if($request->hasFile('cover'))
+                {
+                    $file = $request->file('cover');
+                    $file_name = $file->getClientOriginalName();
+                    $file_ext = $file->getClientOriginalExtension();
+                    $cover = time()."_jurusan_".Auth::user()->id."_".strtolower($file_name);
+                    $file->storeAs('jurusan', $cover);
+
+                    $insert->cover = $cover;
+                }
+
+                $insert->tanggal = date('Y-m-d',strtotime($request->tanggal));
+                $insert->flag_active = $request->flag_active;
+                $insert->isi_artikel = $request->isi_artikel;
+                $insert->save();
+
+                DB::commit();
+                return redirect()->route('jurusan.index')->with('success','Data Baru Artikel Berhasil Di Edit');
+            }
+            catch(Exception $ex)
+            {
+                DB::rollback();
+                return redirect()->route('jurusan.update',$id)->with('failed','Data Baru Artikel Gagal Di Edit');
+            }
+        }
+        else{
+            return redirect()->route('jurusan.update',$id)->with('failed','Data Baru Artikel Gagal Di Edit');
+        }
+
+    }
+
+    public function datatable()
+    {
+        $data = Jurusan::orderBy('tanggal','desc')->get();
+        return Datatables::of($data)
             ->addIndexColumn()
             ->editColumn('aksi', function($data) {
                 $hasil = '
-                    <button type="button" onclick="ubah(\''.$data->id.'\')" class="btn btn-warning btn-xs">
+                    <a href="'.route('jurusan.edit',$data->id).'" data-toggle="tooltip" title="edit artikel" class="btn btn-warning btn-xs">
                         <i class="fa fa-pencil"></i>
-                    </button>
-                    <button type="button" onclick="hapus(\''.$data->id.'\')" class="btn btn-danger btn-xs">
+                    </a>
+                    <button type="button" onclick="hapus(\''.$data->id.'\')" data-toggle="tooltip" title="hapus artikel" class="btn btn-danger btn-xs">
                         <i class="fa fa-trash"></i>
                     </button>
                 ';
                 return $hasil;
             })
+            ->addColumn('cover', function($data) {
+                return $data->get_cover;
+            })
+            ->addColumn('desc', function($data) {
+                return $data->get_desc;
+            })
+            ->addColumn('kategori', function($data) {
+                return $data->get_kategori;
+            })
+            ->addColumn('tgl_posting', function($data) {
+                return $data->tgl_posting;
+            })
+            ->addColumn('get_status', function($data) {
+                $btn = '<button type="button" onclick="edit_flag(\''.$data->id.'\')" data-toggle="tooltip" title="Edit Status" class="btn btn-info btn-xs">
+                    <i class="fa fa-edit"></i>
+                </button>';
+                return $data->get_status.$btn;
+            })
+            ->addColumn('get_view', function($data) {
+                return $data->get_view;
+            })
             ->escapeColumns([])
             ->make(true);
-        }
-        return view('pages.jurusan.index');
     }
 
-    public function simpan(Request $request)
-    {
-        if($request->input())
-        {
-            $validator = Validator::make($request->all(), [
-                    'nama' => 'required',
-                ],
-                [
-                    'nama.required' => 'Nama tidak boleh kosong!',
-                ]
-            );
-            
-         
-            if ($validator->passes()) {
-                $data = new Jurusan();
-                $data->id  = Uuid::uuid4()->getHex();
-                $data->name = strtoupper($request->input('nama'));
-                $data->deskripsi = $request->input('deskripsi');
-                $data->created_at = now();
-                $data->updated_at = null;
-                if($data->save()){
-                    $msg = array(
-                        'success' => true, 
-                        'message' => 'Data berhasil disimpan!',
-                        'status' => TRUE
-                    );
-                    return response()->json($msg);
-                }else{
-                    $msg = array(
-                        'success' => false, 
-                        'message' => 'Data gagal disimpan!',
-                        'status' => TRUE
-                    );
-                    return response()->json($msg);
-                }
-
-            }
-
-            $data = $this->_validate($validator);
-            return response()->json($data);
-
-        }
-    }
-
-    public function ubah(Request $request)
-    {
-        if($request->input())
-        {
-               $validator = Validator::make($request->all(), [
-                    'nama' => 'required',
-               ],
-               [
-                    'nama.required' => 'Nama tidak boleh kosong!',
-               ]
-          );
-         
-            if ($validator->passes()) {
-                $data = Jurusan::find($request->input('id'));
-                $data->name = strtoupper($request->input('nama'));
-                $data->deskripsi = $request->input('deskripsi');
-                $data->updated_at = now();
-                if($data->save()){
-                    $msg = array(
-                        'success' => true, 
-                        'message' => 'Data berhasil diubah!',
-                        'status' => TRUE
-                    );
-                    return response()->json($msg);
-                }else{
-                    $msg = array(
-                        'success' => false, 
-                        'message' => 'Data gagal diubah!',
-                        'status' => TRUE
-                    );
-                    return response()->json($msg);
-                }
-
-            }
-
-            $data = $this->_validate($validator);
-            return response()->json($data);
-
-        }
-    }
-
-    public function data($id)
-    {
-        $data = Jurusan::where('id', $id)->first();
-        return response()->json($data);
-    }
-
-    public function hapus(Request $request , $id)
+    public function destroy($id)
     {
         $data = Jurusan::find($id);
         if($data->delete()){
@@ -147,18 +228,23 @@ class JurusanController extends Controller
         }
     }
 
-    private function _validate($validator){
-        $data = array();
-        $data['error_string'] = array();
-        $data['input_error'] = array();
+    public function edit_status(Request $request)
+    {
+        $id = $request->id;
+        $flag_active = $request->flag_active;
 
-        if ($validator->errors()->has('nama')):
-            $data['input_error'][] = 'nama';
-            $data['error_string'][] = $validator->errors()->first('nama');
-            $data['status'] = false;
-        endif;
+        $data = Jurusan::find($id);
+        $data->flag_active = $flag_active;
+        $data->save();
 
-        return $data;
+        return redirect()->route('jurusan.index')->with('success','Status Artikel Berhasil Di Edit');
     }
 
+
+    public function counter_view($id)
+    {
+        $data = Jurusan::find($id);
+        $data->view = $data->view + 1;
+        $data->save();
+    }
 }
