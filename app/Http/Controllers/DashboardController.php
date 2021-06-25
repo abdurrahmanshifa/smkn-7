@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\DateHelper;
 use App\Models\Pegawai;
 use App\Models\User;
+use App\Models\Siswa;
 use App\Models\Artikel;
 use App\Models\GaleriFoto;
 use App\Models\GaleriVideo;
@@ -66,10 +67,12 @@ class DashboardController extends Controller
         $komentar = Komentar::count();
         $foto = GaleriFoto::count();
         $video = GaleriVideo::count();
+        $jml_siswa = Siswa::count();
 
         return view('pages.dashboard.index')
         ->with('jml_staf',$jml_staf)
         ->with('jml_guru',$jml_guru)
+        ->with('jml_siswa',$jml_siswa)
         ->with('jml_pengguna',$jml_pengguna)
         ->with('jml_artikel',$jml_artikel)
         ->with('jml_visit',$jml_visit)

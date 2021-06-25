@@ -17,4 +17,8 @@ class Siswa extends Model
 
     protected $table = 'siswa';
 
+    function jnskelamin()
+    {
+        return $this->belongsTo('App\Models\JnsKelamin','jenis_kelamin');
+    }
 }

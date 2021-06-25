@@ -12,16 +12,16 @@
                     <div class="widget-body clearfix">
                         <div class="pull-left">
                             <h3 class="widget-title text-primary">
-                                <span class="counter" data-plugin="counterUp">{{$jml_pengguna}}</span>
+                                <span class="counter" data-plugin="counterUp">{{$jml_siswa}}</span>
                             </h3>
-                            <small class="text-color">Pengguna</small>
+                            <small class="text-color">Siswa</small>
                         </div>
                         <span class="pull-right big-icon watermark">
                             <i class="fa fa-user"></i>
                         </span>
                     </div>
                     <footer class="widget-footer bg-primary">
-                        <a href="{{ route('pengguna') }}">
+                        <a href="{{ route('siswa') }}">
                             <small>
                                 Lihat Detail
                             </small>
@@ -131,6 +131,29 @@
 			</div><!-- END column -->
             <div class="col-md-3">
                 <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="widget stats-widget">
+                            <div class="widget-body clearfix">
+                                <div class="pull-left">
+                                    <h3 class="widget-title text-primary">
+                                        <span class="counter" data-plugin="counterUp">{{$jml_pengguna}}</span>
+                                    </h3>
+                                    <small class="text-color">Pengguna</small>
+                                </div>
+                                <span class="pull-right big-icon watermark">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                            <footer class="widget-footer bg-primary">
+                                <a href="{{ route('pengguna') }}">
+                                    <small>
+                                        Lihat Detail
+                                    </small>
+                                </a>
+                                <span class="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"></span>
+                            </footer>
+                        </div><!-- .widget -->
+                    </div>
                     <div class="col-md-12 col-sm-12">
                         <div class="widget stats-widget">
                             <div class="widget-body clearfix">

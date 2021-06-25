@@ -27,7 +27,7 @@ class Banner extends Model
 
     function getBannerAttribute()
     {
-        return "<img src='".url('app/banner/'.$this->attributes['images'])."' style='width:200px !important;'> ";
+        return "<img src='".url('show-image/banner/'.$this->attributes['images'])."' style='width:200px !important;'> ";
     }
 
 }

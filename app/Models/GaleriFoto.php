@@ -37,7 +37,7 @@ class GaleriFoto extends Model
 
     function getGaleriFotoAttribute()
     {
-        return "<img src='".url('app/galeri-foto/'.$this->foto)."' style='width:200px !important;'> ";
+        return "<img src='".url('show-image/galeri-foto/'.$this->foto)."' style='width:200px !important;'> ";
     }
 
     function getGetViewAttribute()

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Manajemen\ArtikelController;
 use App\Http\Controllers\Manajemen\JurusanController;
@@ -39,6 +40,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('pengguna/ubah','App\Http\Controllers\PenggunaController@ubah')->name('pengguna.ubah');
         Route::get('pengguna/data/{id}','App\Http\Controllers\PenggunaController@data')->name('pengguna.data');
         Route::delete('pengguna/hapus/{id}','App\Http\Controllers\PenggunaController@hapus')->name('pengguna.hapus');
+
+        Route::resource('siswa',SiswaController::class);
+        Route::post('siswa-edit-status',[SiswaController::class,'edit_status'])->name('siswa.edit-status');
 
         Route::resource('pegawai',PegawaiController::class);
         Route::post('pegawai-edit-status',[PegawaiController::class,'edit_status'])->name('pegawai.edit-status');

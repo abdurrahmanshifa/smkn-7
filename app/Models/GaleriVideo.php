@@ -38,7 +38,7 @@ class GaleriVideo extends Model
     function getGaleriVideoAttribute()
     {
         list($url,$kode) = explode('v=',$this->link);
-        $embed = '<iframe style="width:250px;height:auto;" src="https://www.youtube.com/embed/'.$kode.'" frameborder="0" allowfullscreen></iframe>';
+        $embed = '<img src="https://i.ytimg.com/vi/'.$kode.'/maxresdefault.jpg" style="width:200px;"> ';
 
         return $embed;
     }
@@ -46,7 +46,7 @@ class GaleriVideo extends Model
     function getGaleriVideoStyleAttribute()
     {
         list($url,$kode) = explode('v=',$this->link);
-        $embed = '<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/'.$kode.'" frameborder="0" allowfullscreen></iframe>';
+        $embed = '<img src="https://i.ytimg.com/vi/'.$kode.'/maxresdefault.jpg" style="width:200px;"> ';
 
         return $embed;
     }
