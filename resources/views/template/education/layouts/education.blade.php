@@ -14,17 +14,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         @include('template.education.includes.head')
     </head>
-    <body class="defult-home">
+    <body class="home-style2">
         
         <!--Preloader area start here-->
-        <div id="loader" class="loader orange-color">
+        <div id="loader" class="loader">
             <div class="loader-container">
                 <div class='loader-icon'>
-                    <img src="{{ asset('educavo') }}/images/pre-logo1.png" alt="">
+                    <img src="{{ url('show-file/logo/'.@$logo->logo_utama) }}" alt="">
                 </div>
             </div>
         </div>
-        <!--Preloader area End here--> 
+        <!--Preloader area End here-->
 
 		<!-- Main content Start -->
         <div class="main-content">

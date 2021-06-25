@@ -24,7 +24,7 @@ class CreateJnsKelamin extends Migration
 
         DB::table('master_jns_kelamin')->insert(
             [
-                'id'        => Uuid::uuid4()->getHex(),
+                'id'        => '7b0e838cf417482783036fbaf8681b4f',
                 'name'      => 'Laki - laki',
                 'created_at'=> now(),
                 'updated_at'=> null,
@@ -33,7 +33,7 @@ class CreateJnsKelamin extends Migration
 
         DB::table('master_jns_kelamin')->insert(
             [
-                'id'        => Uuid::uuid4()->getHex(),
+                'id'        => '470838aec5134b2aa2df5e36b3305796',
                 'name'      => 'Perempuan',
                 'created_at'=> now(),
                 'updated_at'=> null,

@@ -71,7 +71,6 @@ body {
 img {
   max-width: 100%;
   height: auto;
-  width: 100%;
 }
 p {
   margin: 0 0 26px;
@@ -1726,7 +1725,7 @@ ul.listing-style.modify li:before {
   z-index: 9;
 }
 .full-width-header .rs-header .logo-part img {
-  max-height: 40px;
+  max-height: 60px;
 }
 .full-width-header .rs-header .menu-area {
   transition: all 0.3s ease;
@@ -5084,6 +5083,11 @@ body .modal-backdrop {
   background: #273c66;
   opacity: 0.9;
 }
+
+.rs-services.style1 .service-item.overly:after {
+  background: var(--my-color-var);
+}
+
 .rs-services.style1 .service-item.overly1:after {
   background: #273c66;
 }
@@ -10991,14 +10995,14 @@ body .modal-backdrop {
   z-index: -1;
 }
 .rs-cta.style2 .partition-bg-wrap:before {
-  background: url(images/cta/style2/left-bg.jpg);
+  background: var(--bg-left);
   left: 0;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .rs-cta.style2 .partition-bg-wrap:after {
-  background: url(images/cta/style2/right-bg.jpg);
+  background: var(--bg-right);
   right: 0;
   background-size: cover;
   background-repeat: no-repeat;
@@ -11217,7 +11221,6 @@ body .modal-backdrop {
   font-size: 42px;
   line-height: 1;
   color: #112958;
-  padding-right: 25px;
   margin-bottom: 15px;
 }
 .rs-counter .counter-item .rs-count:before {

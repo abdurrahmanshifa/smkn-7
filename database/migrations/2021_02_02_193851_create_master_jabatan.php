@@ -24,7 +24,7 @@ class CreateMasterJabatan extends Migration
 
         DB::table('master_jabatan')->insert(
             [
-                'id'        => Uuid::uuid4()->getHex(),
+                'id'        => '4991970fcdc745e8a035b45231735ca9',
                 'name'      => 'Guru',
                 'created_at'=> now(),
                 'updated_at'=> null,
@@ -33,7 +33,7 @@ class CreateMasterJabatan extends Migration
 
         DB::table('master_jabatan')->insert(
             [
-                'id'        => Uuid::uuid4()->getHex(),
+                'id'        => '31f411bb5756407d952bb82c958913c1',
                 'name'      => 'Staff',
                 'created_at'=> now(),
                 'updated_at'=> null,

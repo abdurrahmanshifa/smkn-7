@@ -3,6 +3,10 @@ namespace App\Helpers;
 use App\Models\Logo;
 use App\Models\Pegawai;
 use App\Models\Lokasi;
+use App\Models\Ppdb;
+use App\Models\Tautan;
+use App\Models\TentangAplikasi;
+use App\Models\Siswa;
 use App\Models\File;
 use App\Models\Artikel;
 use App\Models\Kategori;
@@ -25,6 +29,21 @@ class FunctionHelper{
         }else{
             return $data;
         }
+    }
+
+    public static function tentangAplikasi()
+    {
+         $data = TentangAplikasi::first();
+         return $data;
+    }
+
+    public static function jmlOrg()
+    {
+         $jml = (object)array();
+         $jml->guru = Pegawai::where('jabatan','4991970fcdc745e8a035b45231735ca9')->count();
+         $jml->staff = Pegawai::where('jabatan','31f411bb5756407d952bb82c958913c1')->count();
+         $jml->siswa = Siswa::count();
+         return $jml;
     }
 
     public static function indonesian_date ($timestamp = '', $date_format = 'l, j F | H:i', $suffix = '') {
@@ -137,10 +156,20 @@ class FunctionHelper{
           return $lokasi;
     }
 
+    public static function informasiPpdb(){
+          $data = Ppdb::where('is_active','1')->first();
+          return $data;
+     }
+
+    public static function tautan($jml){
+          $data = Tautan::get()->take($jml);
+          return $data;
+     }
+
     public static function pegawai(){
-     $pegawai = Pegawai::with('Datajabatan')->orderBy('jabatan')->where('status',1)->get();
-     return $pegawai;
-}
+          $pegawai = Pegawai::with('Datajabatan')->orderBy('jabatan')->where('status',1)->get();
+          return $pegawai;
+     }
 
     public static function artikel($limit=null){
           $artikel = Artikel::where('flag_active',1)->where('id_kategori','!=','c60220a9914e4c6883ab61b225961a9c');
@@ -148,7 +177,7 @@ class FunctionHelper{
           if($limit != null){
                $data = $artikel->limit(3)->orderBy('view')->get();
           }else{
-               $data = $artikel->with(['kategori','user','komentar'])->orderBy('created_at','desc')->paginate(6);
+               $data = $artikel->with(['kategori','user','komentar'])->orderBy('created_at','desc')->paginate(3);
           }
 
           return $data;
@@ -238,9 +267,14 @@ class FunctionHelper{
           return $file;
      }
 
-     public static function event($limit){
-          $event = Event::orderBy('created_at','desc')->take($limit)->get();
+     public static function event(){
+          $event = Event::orderBy('created_at','desc')->paginate(3);;
           return $event;
+     }
+
+     public static function jurusan(){
+          $data = Jurusan::orderBy('created_at','desc')->where('flag_active',1)->get();
+          return $data;
      }
 
      public static function profil()
