@@ -86,58 +86,6 @@
         });
     });
 
-    function hapus(id){
-        Swal.fire({
-               text: "Apakah data ini ingin dihapus?",
-               title: "Perhatian",
-               icon: 'warning',
-               showCancelButton: true,
-               confirmButtonColor: "#2196F3",
-               confirmButtonText: "Iya",
-               cancelButtonText: "Tidak",
-               closeOnConfirm: false,
-               closeOnCancel: true
-          }).then((result) => {
-               if (result.value) {
-                    $.ajax({
-                        url : "{{url('manajemen/kategori/hapus/')}}"+"/"+id,
-                        type: "POST",
-                        data : {
-                            '_method'   : 'delete',
-                            '_token'    : '{{ csrf_token() }}',
-                        },
-                        dataType: "JSON",
-                        success: function (obj) {
-                            if (obj.success !== true) {
-                                Swal.fire({
-                                    text: obj.message,
-                                    title: "Perhatian!",
-                                    icon: "error",
-                                    button: true,
-                                    timer: 1000
-                                });
-                            }
-                            else {
-                                Swal.fire({
-                                    text: obj.message,
-                                    title: "Perhatian!",
-                                    icon: "success",
-                                    button: true,
-                                }).then((result) => {
-                                    if (result.value) {
-                                        location.reload(); 
-                                    }
-                                });
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown){
-                            alert('Error get data from ajax');
-                        }
-                    });
-               }
-         });
-    }
-
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();

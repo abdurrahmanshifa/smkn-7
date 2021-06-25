@@ -68,15 +68,15 @@
                             <div class="form-group">
                                <label for="textarea1" class="col-sm-2 control-label">Cover:<span class="text-danger">*</span></label>
                                 <div class="col-sm-7">
+                                    <div class="row">
+                                        <div class="col-md-6" id="img-preview"></div>
+                                    </div>
                                     <div class="input-group date" id="cover">
-                                        <input type="file" class="form-control" name="cover" id="cover-img"> 
+                                        <input type="file" class="form-control" name="cover" id="cover-img" required> 
                                         <span class="input-group-addon bg-info text-white">
                                             <span class="glyphicon glyphicon-search"></span>
                                         </span>
                                     </div>
-                                   <div class="row">
-                                        <div class="col-md-6" id="img-preview"></div>
-                                   </div>
                                 </div>
                             </div>
                             <div class="form-group">

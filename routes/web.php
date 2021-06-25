@@ -9,6 +9,7 @@ use App\Http\Controllers\Manajemen\GaleriFotoController;
 use App\Http\Controllers\Manajemen\GaleriVideoController;
 use App\Http\Controllers\Manajemen\KomentarBalasanController;
 use App\Http\Controllers\Manajemen\FileController;
+use App\Http\Controllers\Pengaturan\PpdbController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('event/ubah','App\Http\Controllers\Manajemen\EventController@ubah')->name('manajemen.event.ubah');
         Route::get('event/data/{id}','App\Http\Controllers\Manajemen\EventController@data')->name('manajemen.event.data');
         Route::delete('event/hapus/{id}','App\Http\Controllers\Manajemen\EventController@hapus')->name('manajemen.event.hapus');
+
+        Route::get('/tautan', 'App\Http\Controllers\Manajemen\TautanController@index')->name('manajemen.tautan');
+        Route::post('tautan/simpan','App\Http\Controllers\Manajemen\TautanController@simpan')->name('manajemen.tautan.simpan');
+        Route::post('tautan/ubah','App\Http\Controllers\Manajemen\TautanController@ubah')->name('manajemen.tautan.ubah');
+        Route::get('tautan/data/{id}','App\Http\Controllers\Manajemen\TautanController@data')->name('manajemen.tautan.data');
+        Route::delete('tautan/hapus/{id}','App\Http\Controllers\Manajemen\TautanController@hapus')->name('manajemen.tautan.hapus');
+
+        Route::get('/sambutan', 'App\Http\Controllers\Manajemen\SambutanController@index')->name('manajemen.sambutan');
+        Route::post('sambutan/simpan','App\Http\Controllers\Manajemen\SambutanController@simpan')->name('manajemen.sambutan.simpan');
+        Route::post('sambutan/ubah','App\Http\Controllers\Manajemen\SambutanController@ubah')->name('manajemen.sambutan.ubah');
 
         Route::get('/lokasi', 'App\Http\Controllers\Manajemen\LokasiController@index')->name('manajemen.lokasi');
         Route::post('lokasi/simpan','App\Http\Controllers\Manajemen\LokasiController@simpan')->name('manajemen.lokasi.simpan');
@@ -111,6 +122,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('lokasi/ubah','App\Http\Controllers\Manajemen\LokasiController@ubah')->name('pengaturan.lokasi.ubah');
         Route::delete('lokasi/hapus/{id}','App\Http\Controllers\Manajemen\LokasiController@hapus')->name('pengaturan.lokasi.hapus');
 
+        Route::resource('ppdb',PpdbController::class);
+        Route::get('ppdb-datatable',[PpdbController::class,'datatable'])->name('ppdb.datatable');
+        Route::post('ppdb-edit-status',[PpdbController::class,'edit_status'])->name('ppdb.edit-status');
 
     });
 

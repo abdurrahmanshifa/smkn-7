@@ -5,44 +5,10 @@
     $('#isi-artikel').summernote({
         height:300,
     });
-    var table = $('#table').DataTable({
-            pageLength: 10,
-            processing: true,
-            serverSide: true,
-            info :false,
-            ajax: {
-               url: "{{ route('manajemen.event') }}",
-            },
-            columns: [
-                {"data":"DT_RowIndex"},
-                {"data":"foto"},
-                {"data":"nama"},
-                {"data":"tanggal"},
-                {"data":"lokasi"},
-                {"data":"aksi"},
-            ],
-            columnDefs: [
-            {
-                targets: [-1],
-                className: 'text-center'
-            },
-          ]
-    });
-    $(".tambah_form").click(function(){
-        save_method = 'add';
-        $('[name="form_input"]')[0].reset();
-        $('#modal_form').modal('show');
-        $('#modal_form .modal-title').text('Tambah Data');
-        $('.help-block').empty();
-        $("div").removeClass("has-error");
-        $('#btn').text('Simpan');
-        $('#btn').attr('disabled', false);
-        $('.foto-cover').html(' ');
-    });
 
     $("[name=form_input]").on('submit', function(e) {
         e.preventDefault();
-
+        var save_method = $('[name="method"]').val();
         $('.help-block').empty();
         $("div").removeClass("has-error");
         $('#btn').text('sedang menyimpan...');
@@ -50,14 +16,14 @@
 
         var form = $('[name="form_input"]')[0];
         var data = new FormData(form);
-        if(save_method == 'add'){
-            var url = '{{route("manajemen.event.simpan")}}';
+        if(save_method == 'simpan'){
+            var url = '{{route("manajemen.sambutan.simpan")}}';
         }else{
-            var url = '{{route("manajemen.event.ubah")}}';
+            var url = '{{route("manajemen.sambutan.ubah")}}';
         }
 
         Swal.fire({
-            text: "Apakah data ini ingin disimpan?",
+            text: "Apakah data ini ingin di"+save_method+' ?',
             title: "Perhatian",
             icon: 'info',
             showCancelButton: true,
@@ -94,7 +60,7 @@
                                     button: true,
                                 }).then((result) => {
                                     if (result.value) {
-                                        table.ajax.reload(null,true);
+                                        location.reload();
                                     }
                                 });
                             }
@@ -125,38 +91,6 @@
         });
     });
 
-    function ubah(id)
-    {
-        save_method = 'edit';
-        $('[name="form_input"]')[0].reset();
-        $('.help-block').empty();
-        $("div").removeClass("has-error");
-        $('#btn').text('Simpan');
-        $('#btn').attr('disabled', false);
-
-        $.ajax({
-            url : "{{url('manajemen/event/data/')}}"+"/"+id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data){
-                $('#modal_form').modal('show');
-                $('#modal_form  .modal-title').text('Ubah Data');
-                $('[name="id"]').val(id);
-                $('[name="nama"]').val(data.nama);
-                $('[name="deskripsi"]').val(data.deskripsi);
-                $('.foto-cover').html('<img src="{{ url("show-image/event") }}/'+data.foto+'" style="width:50%"><br><br>');
-                $('[name="lokasi"]').val(data.lokasi);
-                $('[name="tanggal_mulai"]').val(data.tanggal_mulai);
-                $('[name="tanggal_akhir"]').val(data.tanggal_akhir);
-                $('[name="lat"]').val(data.lat);
-                $('[name="long"]').val(data.long);
-            },
-            error: function (jqXHR, textStatus, errorThrown){
-                alert('Error get data from ajax');
-            }
-        });
-    }
-
     function hapus(id){
         Swal.fire({
                text: "Apakah data ini ingin dihapus?",
@@ -171,7 +105,7 @@
           }).then((result) => {
                if (result.value) {
                     $.ajax({
-                        url : "{{url('manajemen/event/hapus/')}}"+"/"+id,
+                        url : "{{url('manajemen/kategori/hapus/')}}"+"/"+id,
                         type: "POST",
                         data : {
                             '_method'   : 'delete',
@@ -196,7 +130,7 @@
                                     button: true,
                                 }).then((result) => {
                                     if (result.value) {
-                                        table.ajax.reload(null,true); 
+                                        location.reload(); 
                                     }
                                 });
                             }
@@ -208,4 +142,29 @@
                }
          });
     }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            $('#logo-utama').attr('style','height: 150px;');
+            reader.onload = function(e) {
+                $('#logo-utama').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#foto").change(function() {
+        readURL(this);
+        $('.hapus-caption').html('');
+        $('.utama').append('<div class="caption text-right"><button type="button" onclick="hapus_utama()" class="btn btn-danger">Hapus</button></div>');
+    });
+
+    function hapus_utama(){
+        $('[name="foto_old"]').val('');
+        $('.utama').html('<img style="width:100%;" id="logo-utama" src="{{asset("img/preview.png") }}" />');
+        $('[name="logo"]').val('');
+    }
+
 </script>

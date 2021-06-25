@@ -71,7 +71,7 @@ class EventController extends Controller
 
                 if($request->hasFile('images'))
                 {
-                    $dir = 'public/event';
+                    $dir = 'event';
                     $file = $request->file('images');
                     $filename = str_replace(' ','_',strtolower($request->input('nama'))).'_'.Str::random(5). '.' . $file->getClientOriginalExtension();
                     $file->storeAs($dir, $filename);
@@ -135,7 +135,7 @@ class EventController extends Controller
                 
                 if($request->hasFile('images'))
                 {
-                    $dir = 'public/event';
+                    $dir = 'event';
                     $file = $request->file('images');
                     $filename = str_replace(' ','_',strtolower($request->input('nama'))).'_'.Str::random(5). '.' . $file->getClientOriginalExtension();
                     $file->storeAs($dir, $filename);

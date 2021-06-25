@@ -1,24 +1,18 @@
-<link rel="stylesheet" href="{{ asset('libs/bower/summernote/dist/summernote.css') }}"/>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="{{ asset('libs/bower/summernote/dist/summernote.js') }}"></script>
 <script>
-    $('#isi-artikel').summernote({
-        height:300,
-    });
     var table = $('#table').DataTable({
             pageLength: 10,
             processing: true,
             serverSide: true,
             info :false,
             ajax: {
-               url: "{{ route('manajemen.event') }}",
+               url: "{{ route('manajemen.tautan') }}",
             },
             columns: [
                 {"data":"DT_RowIndex"},
-                {"data":"foto"},
-                {"data":"nama"},
-                {"data":"tanggal"},
-                {"data":"lokasi"},
+                {"data":"judul"},
+                {"data":"url"},
+                {"data":"bg_color"},
                 {"data":"aksi"},
             ],
             columnDefs: [
@@ -28,17 +22,7 @@
             },
           ]
     });
-    $(".tambah_form").click(function(){
-        save_method = 'add';
-        $('[name="form_input"]')[0].reset();
-        $('#modal_form').modal('show');
-        $('#modal_form .modal-title').text('Tambah Data');
-        $('.help-block').empty();
-        $("div").removeClass("has-error");
-        $('#btn').text('Simpan');
-        $('#btn').attr('disabled', false);
-        $('.foto-cover').html(' ');
-    });
+
 
     $("[name=form_input]").on('submit', function(e) {
         e.preventDefault();
@@ -50,12 +34,7 @@
 
         var form = $('[name="form_input"]')[0];
         var data = new FormData(form);
-        if(save_method == 'add'){
-            var url = '{{route("manajemen.event.simpan")}}';
-        }else{
-            var url = '{{route("manajemen.event.ubah")}}';
-        }
-
+        var url = '{{route("manajemen.tautan.ubah")}}';
         Swal.fire({
             text: "Apakah data ini ingin disimpan?",
             title: "Perhatian",
@@ -135,21 +114,18 @@
         $('#btn').attr('disabled', false);
 
         $.ajax({
-            url : "{{url('manajemen/event/data/')}}"+"/"+id,
+            url : "{{url('manajemen/tautan/data/')}}"+"/"+id,
             type: "GET",
             dataType: "JSON",
             success: function(data){
                 $('#modal_form').modal('show');
                 $('#modal_form  .modal-title').text('Ubah Data');
                 $('[name="id"]').val(id);
-                $('[name="nama"]').val(data.nama);
-                $('[name="deskripsi"]').val(data.deskripsi);
-                $('.foto-cover').html('<img src="{{ url("show-image/event") }}/'+data.foto+'" style="width:50%"><br><br>');
-                $('[name="lokasi"]').val(data.lokasi);
-                $('[name="tanggal_mulai"]').val(data.tanggal_mulai);
-                $('[name="tanggal_akhir"]').val(data.tanggal_akhir);
-                $('[name="lat"]').val(data.lat);
-                $('[name="long"]').val(data.long);
+                $('[name="judul"]').val(data.judul);
+                $('[name="bg_color"]').val(data.bg_color);
+                $('.foto-icon').html('<img src="{{ url("storage/tautan/icon") }}/'+data.icon+'"><br><br>');
+                $('.foto-bg').html('<img src="{{ url("storage/tautan/bg") }}/'+data.bg_img+'"><br><br>');
+                $('[name="url"]').val(data.url);
             },
             error: function (jqXHR, textStatus, errorThrown){
                 alert('Error get data from ajax');
@@ -157,55 +133,4 @@
         });
     }
 
-    function hapus(id){
-        Swal.fire({
-               text: "Apakah data ini ingin dihapus?",
-               title: "Perhatian",
-               icon: 'warning',
-               showCancelButton: true,
-               confirmButtonColor: "#2196F3",
-               confirmButtonText: "Iya",
-               cancelButtonText: "Tidak",
-               closeOnConfirm: false,
-               closeOnCancel: true
-          }).then((result) => {
-               if (result.value) {
-                    $.ajax({
-                        url : "{{url('manajemen/event/hapus/')}}"+"/"+id,
-                        type: "POST",
-                        data : {
-                            '_method'   : 'delete',
-                            '_token'    : '{{ csrf_token() }}',
-                        },
-                        dataType: "JSON",
-                        success: function (obj) {
-                            if (obj.success !== true) {
-                                Swal.fire({
-                                    text: obj.message,
-                                    title: "Perhatian!",
-                                    icon: "error",
-                                    button: true,
-                                    timer: 1000
-                                });
-                            }
-                            else {
-                                Swal.fire({
-                                    text: obj.message,
-                                    title: "Perhatian!",
-                                    icon: "success",
-                                    button: true,
-                                }).then((result) => {
-                                    if (result.value) {
-                                        table.ajax.reload(null,true); 
-                                    }
-                                });
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown){
-                            alert('Error get data from ajax');
-                        }
-                    });
-               }
-         });
-    }
 </script>

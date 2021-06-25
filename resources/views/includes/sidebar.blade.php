@@ -56,20 +56,30 @@
                 <li class="has-submenu {{ request()->is('manajemen/kategori') || request()->is('manajemen/jurusan') || request()->is('manajemen/artikel') ? 'active' : '' }}">
                     <a href="javascript:void(0)" class="submenu-toggle">
                         <i class="menu-icon fa fa-folder"></i>
-                        <span class="menu-text">Manajemen Artikel</span>
+                        <span class="menu-text">Manajemen Konten</span>
                         <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
                     </a>
                     {{--
                     <ul class="submenu" style="{{ request()->is('manajemen/kategori')  || request()->is('manajemen/lokasi') || request()->is('manajemen/artikel') || request()->is('manajemen/komentar') ? 'display: block;' : '' }}"> --}}
                     <ul class="submenu" style="{{ request()->is('manajemen/jurusan')  || request()->is('manajemen/artikel') ? 'display: block;' : '' }}">
-                        <li class="{{ request()->is('manajemen/jurusan') ? 'active' : '' }}">
-                            <a href="{{ route('jurusan.index') }}">
-                                <span class="menu-text">Jurusan</span>
+                        <li class="{{ request()->is('manajemen/tautan') ? 'active' : '' }}">
+                            <a href="{{ route('manajemen.tautan') }}">
+                                <span class="menu-text">Tautan</span>
+                            </a>
+                        </li>
+                        <li class="{{ request()->is('manajemen/sambutan') ? 'active' : '' }}">
+                            <a href="{{ route('manajemen.sambutan') }}">
+                                <span class="menu-text">Sambutan</span>
                             </a>
                         </li>
                         <li class="{{ request()->is('manajemen/kategori') ? 'active' : '' }}">
                             <a href="{{ route('manajemen.kategori') }}">
                                 <span class="menu-text">Kategori</span>
+                            </a>
+                        </li>
+                        <li class="{{ request()->is('manajemen/jurusan') ? 'active' : '' }}">
+                            <a href="{{ route('jurusan.index') }}">
+                                <span class="menu-text">Jurusan</span>
                             </a>
                         </li>
                         <li class="{{ request()->is('manajemen/event') ? 'active' : '' }}">
@@ -114,21 +124,26 @@
                         </li>
                     </ul>
                 </li>
-                <li class="has-submenu {{ request()->is('pengaturan/menu') || request()->is('pengaturan/banner') || request()->is('pengaturan/logo') || request()->is('pengaturan/lokasi') ? 'active' : '' }}">
+                <li class="has-submenu {{ request()->is('pengaturan/ppdb') || request()->is('pengaturan/menu') || request()->is('pengaturan/banner') || request()->is('pengaturan/logo') || request()->is('pengaturan/lokasi') ? 'active' : '' }}">
                     <a href="javascript:void(0)" class="submenu-toggle">
                         <i class="menu-icon fa fa-desktop"></i>
                         <span class="menu-text">Pengaturan Aplikasi</span>
                         <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
                     </a>
-                    <ul class="submenu" style="{{ request()->is('pengaturan/menu') || request()->is('pengaturan/banner') || request()->is('pengaturan/logo') || request()->is('pengaturan/lokasi') ? 'display: block;' : '' }}">
+                    <ul class="submenu" style="{{ request()->is('pengaturan/ppdb') || request()->is('pengaturan/menu') || request()->is('pengaturan/banner') || request()->is('pengaturan/logo') || request()->is('pengaturan/lokasi') ? 'display: block;' : '' }}">
                         <li class="{{ request()->is('pengaturan/menu') ? 'active' : '' }}">
                             <a href="{{ route('pengaturan.menu') }}">
                                 <span class="menu-text">Menu</span>
                             </a>
                         </li>
+                        <li class="{{ request()->is('pengaturan/ppdb') ? 'active' : '' }}">
+                            <a href="{{ route('ppdb.index') }}">
+                                <span class="menu-text">Informasi PPDB</span>
+                            </a>
+                        </li>
                         <li class="{{ request()->is('pengaturan/banner') ? 'active' : '' }}">
                             <a href="{{ route('pengaturan.banner') }}">
-                                <span class="menu-text">Banner</span>
+                                <span class="menu-text">Banner / Slider</span>
                             </a>
                         </li>
                         <li class="{{ request()->is('pengaturan/logo') ? 'active' : '' }}">

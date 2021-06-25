@@ -21,7 +21,7 @@
                                    {{$tngApp->judul}}
                               </h2>
                               <div class="desc big white-color">
-                                   {{$tngApp->deskripsi}}
+                                   {{$tngApp->get_desc}}
                               </div>
                          </div>
                          <div class="btn-part wow fadeInUp" data-wow-delay="400ms" data-wow-duration="2000ms">
@@ -121,12 +121,14 @@
                <div class="container">
                     <div class="row y-bottom">
                          <div class="col-lg-6 pb-50 md-pt-100 md-pb-100">
+                              @if($ppdb->video_tutorial  != null)
                               <div class="video-wrap">
                                    <a class="popup-videos" href="{{ $ppdb->video_tutorial }}">
                                         <i class="fa fa-play"></i>
                                         <h4 class="title mb-0"><br>Play Video</h4>
                                    </a>
                               </div>
+                              @endif
                          </div>
                          <div class="col-lg-6 pl-62 pt-134 pb-150 md-pl-15 md-pt-45 md-pb-50">
                               <div class="sec-title mb-40 wow fadeInUp" data-wow-delay="300ms" data-wow-duration="2000ms">
@@ -164,24 +166,25 @@
                          @foreach($event as $val)
                          <div class="events-short mb-30 wow fadeInUp" data-wow-delay="300ms" data-wow-duration="2000ms">
                               <div class="date-part bgc1">
-                                   <span class="month">June</span>
-                                   <div class="date">20</div>
+                                   @php 
+                                   $tgl = explode('-', $val->tanggal_mulai);
+                                   $hari = explode(' ',$tgl[2]);
+                                   @endphp
+                                   <span class="month">{{  strtoupper(App\Helpers\DateHelper::bulanSingkatInd($tgl[1])) }}</span>
+                                   <div class="date">{{ $hari[0] }}</div>
                               </div>
                               <div class="content-part">
                                    <div class="categorie">
-                                        <a href="#">Math</a> & <a href="#">English</a>
+                                        <a href="#"> Event </a>
                                    </div>
                                    <h4 class="title mb-0">
-                                        <a href="#">Educational Technology and Mobile Accessories Learning</a>
+                                        <a href="#">
+                                             {{ @$val->nama }}
+                                        </a>
                                    </h4>
                               </div>
                          </div>
                          @endforeach
-                         <div class="btn-part mt-55 md-mt-25 wow fadeInUp" data-wow-delay="600ms" data-wow-duration="2000ms">
-                              <div id="pagination" class="pagination-area orange-color text-center mt-30 md-mt-0">
-                                   {{$event->links(('vendor.pagination.custom'))}}
-                              </div>
-                         </div>
                     </div>
                </div>
           </div>
@@ -233,12 +236,6 @@
                     </div> 
                </div>
                @endforeach
-               <div class="col-md-12">
-                    <div id="pagination" class="pagination-area orange-color text-center mt-30 md-mt-0">
-                         {{$artikel->links(('vendor.pagination.custom'))}}
-                    </div>
-               </div>
-               
           </div>
      </div>
 </div>

@@ -17,4 +17,11 @@ class Ppdb extends Model
 
     protected $table = 'informasi_ppdb';
 
+    function getGetStatusAttribute()
+    {
+        if($this->is_active==0)
+            return '<button class="btn btn-xs btn-danger">Tidak Aktif</button>';
+        elseif($this->is_active==1)
+            return '<button class="btn btn-xs btn-success">Aktif</button>';
+    }
 }

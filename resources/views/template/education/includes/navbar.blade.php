@@ -27,7 +27,7 @@
                                    <li class="login-register">
                                         <i class="fa fa-sign-in"></i>
                                         <a href="{{url('login')}}">
-                                             LOGIN
+                                             Masuk
                                         </a>
                                    </li>
                               </ul>

@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div id="back-to-home">
-        <a href="index.html" class="btn btn-outline btn-default">
+        <a href="{{ url('/') }}" class="btn btn-outline btn-default">
             <i class="fa fa-home animated zoomIn"></i>
         </a>
     </div>

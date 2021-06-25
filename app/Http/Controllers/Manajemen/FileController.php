@@ -81,7 +81,7 @@ class FileController extends Controller
                 
                 if($request->hasFile('file'))
                 {
-                    $dir = 'public/file';
+                    $dir = 'file';
                     $file = $request->file('file');
                     $filename = str_replace(' ','_',strtolower($request->input('nama'))).'_'.Str::random(5). '.' . $file->getClientOriginalExtension();
                     $file->storeAs($dir, $filename);
@@ -137,7 +137,7 @@ class FileController extends Controller
 
             if($request->hasFile('file'))
             {
-                $dir = 'public/file';
+                $dir = 'file';
                 $file = $request->file('file');
                 $filename = str_replace(' ','_',strtolower($request->input('nama'))).'_'.Str::random(5). '.' . $file->getClientOriginalExtension();
                 $file->storeAs($dir, $filename);

@@ -43,7 +43,7 @@
                                 Deskripsi
                             </label>
                             <div class="col-sm-9">
-                                <textarea name="deskripsi" class="form-control" style="resize:none" id="" cols="30" rows="10"></textarea>
+                                <textarea name="deskripsi"  class="form-control" style="resize:none" id="isi-artikel"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>
