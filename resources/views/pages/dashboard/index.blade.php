@@ -21,7 +21,7 @@
                         </span>
                     </div>
                     <footer class="widget-footer bg-primary">
-                        <a href="{{ route('siswa') }}">
+                        <a href="{{ route('siswa.index') }}">
                             <small>
                                 Lihat Detail
                             </small>
