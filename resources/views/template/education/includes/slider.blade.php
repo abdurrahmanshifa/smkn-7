@@ -8,16 +8,16 @@
           @foreach($banner as $key => $val)
                <div class="slider-content" style="background: url({{ asset('storage/banner/'.$val->images)}});background-size: cover;background-position: center;background-repeat: no-repeat;">
                     <div class="container">
-                         <h1 class="sl-title white-color wow fadeInRight" data-wow-delay="600ms" data-wow-duration="2000ms">
-                              @if($val->judul != null)
-                                   {{$val->judul}}
-                              @endif
-                         </h1>
                          <div class="sl-sub-title white-color wow bounceInLeft" data-wow-delay="300ms" data-wow-duration="2000ms">
                               @if($val->deskripsi != null)
                                    {{ $val->deskripsi }}
                               @endif
                          </div>
+                         <h1 class="sl-title white-color wow fadeInRight" data-wow-delay="600ms" data-wow-duration="2000ms">
+                              @if($val->judul != null)
+                                   {{$val->judul}}
+                              @endif
+                         </h1>
                          @if($val->link != null)
                               <div class="sl-btn wow fadeInUp" data-wow-delay="900ms" data-wow-duration="2000ms">
                                    <a class="readon2 banner-style" target="_blank" href="{{$val->link}}">Selengkapnya</a>
